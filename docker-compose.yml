@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  next-app:
+    build:
+      context: .
+    container_name: next-container
+    ports:
+      - "3000:3000"
+    environment:
+      # Use the MongoDB service name as the host
+      DB_URI: "mongodb://mongo:27017/test"
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+      
+  mongo:
+    image: mongo:latest
+    container_name: mongo-dbnew
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand({ping: 1})"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+# Define the volume for persistent data
+volumes:
+  mongo-data:
+
+# Define the network for communication
+networks:
+  app-network:
