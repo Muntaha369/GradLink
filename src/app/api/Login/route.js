@@ -4,26 +4,23 @@ import User from "../../model/model";
 
 export async function POST(req) {
   try {
-    // Await the database connection
+
     await ConnectDB();
 
     const body = await req.json();
-    const { name, email, pass, phone, GY, Uname, JobDesc } = body;
+    const {email} = body;
 
-    const findUser = User.findOne({email})
+    const findUser = await User.findOne({email})
 
-    if(findUser){
+    if(!findUser){
       return NextResponse.json({
-        msg:"Already Logged in"
+        msg:"Not valid email or password"
       })
     }
-    
-    const NewUser = await User.create({ name, email, pass, phone, GY, Uname, JobDesc });
 
     return NextResponse.json({
-      msg: "User created successfully",
-      user: NewUser,
-    }, { status: 201 });
+      msg: "Logged in successfully",
+    }, { status: 200 });
 
   } catch (error) {
     // Log the error for debugging
