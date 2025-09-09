@@ -8,9 +8,9 @@ export async function POST(req) {
     await ConnectDB();
 
     const body = await req.json();
-    const {email} = body;
+    const {email, pass} = body;
 
-    const findUser = await User.findOne({email})
+    const findUser = await User.findOne({email, pass})
 
     if(!findUser){
       return NextResponse.json({
