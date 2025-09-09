@@ -8,10 +8,17 @@ export async function POST(req) {
     await ConnectDB();
 
     const body = await req.json();
-    const { name, email, pass } = body;
+    const { name, email, pass, phone, GY, Uname, JobDesc } = body;
 
-    // Await the user creation promise
-    const NewUser = await User.create({ name, email, pass });
+    const findUser = User.findOne({email})
+
+    if(findUser){
+      return NextResponse.json({
+        msg:"Already Logged in"
+      })
+    }
+    
+    const NewUser = await User.create({ name, email, pass, phone, GY, Uname, JobDesc });
 
     return NextResponse.json({
       msg: "User created successfully",

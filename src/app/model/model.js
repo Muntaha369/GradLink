@@ -14,6 +14,26 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  phone:{
+    type: String,
+    required:true
+  },
+  GY:{
+    type: String,
+    required:true
+  },
+  Uname:{
+    type: String,
+    required: true,
+    unique:true
+  },
+  JobDesc:{
+    type:String,
+    require:true
+  },
+  admin:{
+    type:Boolean
+  }
 });
 
 // ✅ Hot-reload safe:
