@@ -2,8 +2,13 @@
 
 import { useState } from 'react';
 import { ClipboardCheck } from 'lucide-react';
+import { useEmail } from '../store/store'
+import { useRouter } from 'next/navigation';
+
 
 export default function GradlinkLogin() {
+  const router = useRouter()
+  const { setEmail } = useEmail()
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -37,9 +42,16 @@ export default function GradlinkLogin() {
           pass: formData.password
         })
       }).then(response => response.json())
-        .then(data => console.log('Login successful!', data))
+        .then(data => {
+          console.log('Login successful!', data.name)
+
+          setEmail(formData.email, data.name, data.phone, data.Jobdesc)
+
+        })
         .catch(error => console.error('Login failed!', error));
-      
+
+        router.push('/')
+
     } else {
       console.log('Please fill out all fields.');
     }

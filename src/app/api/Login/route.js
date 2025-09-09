@@ -19,7 +19,9 @@ export async function POST(req) {
     }
 
     return NextResponse.json({
-      msg: "Logged in successfully",
+      name: findUser.name,
+      phone: findUser.phone,
+      JobDesc:findUser.JobDesc
     }, { status: 200 });
 
   } catch (error) {
