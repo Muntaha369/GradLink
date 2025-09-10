@@ -43,9 +43,9 @@ export default function GradlinkLogin() {
         })
       }).then(response => response.json())
         .then(data => {
-          console.log('Login successful!', data.name)
+          console.log('Login successful!', data.Uname)
 
-          setEmail(formData.email, data.name, data.phone, data.Jobdesc)
+          setEmail(formData.email, data.name, data.phone, data.JobDesc, data.Uname)
 
         })
         .catch(error => console.error('Login failed!', error));

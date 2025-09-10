@@ -1,3 +1,4 @@
+import { Edit } from 'lucide-react'
 import { create } from 'zustand'
 
 export const useEmail = create((set) => ({
@@ -5,5 +6,11 @@ export const useEmail = create((set) => ({
   name:"",
   phone:"",
   JobDesc:"",
-  setEmail: (email, name, phone, JobDesc) => set(() => ({ email, name, phone, JobDesc })),
+  Uname:"",
+  setEmail: (email, name, phone, JobDesc, Uname) => set(() => ({ email, name, phone, JobDesc, Uname })),
+}))
+
+export const useEdit = create((set)=>({
+  zustEdit:false,
+  setEdit:(Boolean)=> set(()=>({Edit:Boolean}))
 }))

@@ -55,9 +55,11 @@ export default function App() {
                         
                         {/* Left Section: Logo and Main Nav Links */}
                         <div className="flex items-center">
-                            <a href="#" className="flex-shrink-0">
-                                <h1 className="text-2xl font-bold text-indigo-600">GradLink</h1>
-                            </a>
+                            
+                                <h1 
+                                onClick={()=>router.push('/')}
+                                className=" flex-shrink-0 text-2xl hover:cursor-pointer font-bold text-indigo-600">GradLink</h1>
+                            
                             <div className="hidden md:block">
                                 <div className="ml-10 flex items-baseline space-x-4">
                                     <a href="#" className="text-gray-500 hover:bg-indigo-50 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Events</a>

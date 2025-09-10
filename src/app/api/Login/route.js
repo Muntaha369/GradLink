@@ -21,7 +21,8 @@ export async function POST(req) {
     return NextResponse.json({
       name: findUser.name,
       phone: findUser.phone,
-      JobDesc:findUser.JobDesc
+      JobDesc:findUser.JobDesc,
+      Uname:findUser.Uname
     }, { status: 200 });
 
   } catch (error) {
