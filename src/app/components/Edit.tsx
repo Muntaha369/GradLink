@@ -1,48 +1,39 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useEmail } from '../store/store';
+import axios from 'axios';
 
-import { useEdit } from '../store/store';
 
-/**
- * @param {object} props - The component props.
- * @param {object} props.user - The user object containing current data (e.g., { phone, JobDesc }).
- * @param {function} props.onClose - Function to call when the modal should be closed.
- * @param {function} props.onSave - Function to call with the updated data when the user saves.
- */
-const EditProfile = ({ user, onClose, onSave }:any) => {
-    // Initialize state with the current user's data passed in as props
-    const [phone, setPhone] = useState(user?.phone || '');
-    const [description, setDescription] = useState(user?.about || '');
+function EditProfile() {
+    const [phone, setPhone] = useState('');
+    const [description, setDescription] = useState('');
 
-    const handleSave = (e:any) => {
+    const { email, name, Uname, setEmail } = useEmail();
+
+    const handleSave = (e: any) => {
         e.preventDefault();
-        onSave({
+
+        axios.post('http://localhost:3000/api/Edit', {
+            email,
             phone,
-            about: description, // Assuming the 'about' field corresponds to 'JobDesc'
+            JobDesc: description
         });
-        onClose(); // Close the modal after saving
+
+        setEmail(email, name, phone, description, Uname);
+
+        console.log(email, name, phone, description, Uname);
+
     };
 
-    // Prevent modal from closing when clicking inside the content area
-    const handleModalContentClick = (e:any) => {
-        e.stopPropagation();
-    };
-
-    const {setEditInfo} = useEdit()
 
     return (
-        // Modal Backdrop: Covers the entire screen with a semi-transparent overlay.
-        // The `onClick={onClose}` allows closing the modal by clicking outside the form.
-        <div 
+        <div
             className=""
-            onClick={onClose}
         >
-            {/* Modal Content */}
             <div
                 className=""
-                onClick={handleModalContentClick}
-                style={{'--animation-duration': '0.3s'} as React.CSSProperties}
+                style={{ '--animation-duration': '0.3s' } as React.CSSProperties}
             >
 
                 <form onSubmit={handleSave}>
@@ -57,11 +48,9 @@ const EditProfile = ({ user, onClose, onSave }:any) => {
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
                             className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
-                            placeholder="Enter your phone number"
-                        />
+                            placeholder="Enter your phone number" />
                     </div>
 
-                    {/* Description Textarea */}
                     <div className="mb-8">
                         <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
                             Description (About)
@@ -76,15 +65,8 @@ const EditProfile = ({ user, onClose, onSave }:any) => {
                         ></textarea>
                     </div>
 
-                    {/* Action Buttons */}
                     <div className="flex justify-end space-x-4">
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="px-6 py-2 bg-gray-100 text-gray-700 font-semibold rounded-md hover:bg-gray-200 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
-                        >
-                            Cancel
-                        </button>
+
                         <button
                             type="submit"
                             className="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-md hover:bg-indigo-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -94,8 +76,7 @@ const EditProfile = ({ user, onClose, onSave }:any) => {
                     </div>
                 </form>
             </div>
-            
-            {/* We can add simple keyframe animations directly in a style tag */}
+
             <style jsx global>{`
                 @keyframes fade-in-scale {
                     from {
@@ -113,6 +94,6 @@ const EditProfile = ({ user, onClose, onSave }:any) => {
             `}</style>
         </div>
     );
-};
+}
 
 export default EditProfile;
