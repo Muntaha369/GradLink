@@ -63,7 +63,8 @@ const Display = () => {
               {/* Profile Image */}
               <div className="flex justify-center mb-4">
                 <img
-                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=EBF4FF&color=7F9CF5&size=128`}
+                  // src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=EBF4FF&color=7F9CF5&size=128`}
+                  src={`${user.Uname}.jpeg`}
                   alt={`${user.name}'s profile`}
                   className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-md"
                 />
