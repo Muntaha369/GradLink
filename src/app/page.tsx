@@ -1,14 +1,15 @@
 "use client"
 
 import React from 'react'
-import { useEmail } from './store/store'
 import Nav from './components/Nav'
+import Display from './components/Display'
 
 const page = () => {
 
   return (
     <div>
       <Nav/>
+      <Display/>
     </div>
   )
 }
