@@ -1,5 +1,9 @@
+"use client"
+
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useEmail } from '../store/store';
+import { useRouter } from 'next/navigation';
 
 interface UserData {
   _id: string;
@@ -14,6 +18,10 @@ const Display = () => {
   const [users, setUsers] = useState<UserData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const router = useRouter();
+  const {setEmail} = useEmail();
+
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -48,14 +56,24 @@ const Display = () => {
     return <div className="text-center py-8 text-gray-500">No users found.</div>;
   }
 
+  const ToProfile = ({name, email, Uname, JobDesc}:any)=>{
+    setEmail(name, email, Uname, JobDesc)
+    console.log(name, email, Uname, JobDesc)
+    router.push(`user/${Uname}`)
+  }
+
   return (
-    <div className="container mx-auto p-4 sm:p-8">
+    <div className="container mx-auto p-4 sm:p-8 hover:cursor-pointer">
       <h2 className="text-3xl sm:text-4xl font-extrabold text-blue-800 text-center mb-10">
         Our <span className="text-indigo-600">Graduates</span>
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {users.map((user) => (
           <div 
+            onClick={() => {
+              ToProfile({ name: user.name, email: user.email, Uname: user.Uname, JobDesc: user.JobDesc })
+              
+            }}
             key={user._id} 
             className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
           >
