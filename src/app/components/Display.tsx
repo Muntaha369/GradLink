@@ -59,7 +59,7 @@ const Display = () => {
 
   const ToProfile = ({ name, email, phone, JobDesc, Uname }: {name: string, email: string, phone: string, JobDesc: string, Uname: string})=>{
     setEmail(email, name, phone, JobDesc, Uname)
-    router.push(`user/${Uname}`)
+    router.push(`${Uname}`)
   }
 
   return (
