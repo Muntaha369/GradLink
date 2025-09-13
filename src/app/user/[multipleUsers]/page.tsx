@@ -1,8 +1,10 @@
 "use client";
 
-import React,{useEffect} from 'react';
+import React,{useEffect, useState} from 'react';
 import { useVary } from '../../store/store';
 import Nav from '../../components/Nav';
+import { useParams } from 'next/navigation';
+import axios from 'axios'
 
 const MailIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-gray-400">
@@ -53,6 +55,12 @@ const InfoItem = ({ icon, text }:any) => (
 
 const page = () => {
   const { email, name, phone, JobDesc, Uname, setEmail } = useVary();
+  const [info, setInfo] = useState({})
+
+  const params = useParams();
+  const multiUname = params.multipleUsers as string
+  console.log(multiUname)
+
 
 
   useEffect(() => {

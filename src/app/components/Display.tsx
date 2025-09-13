@@ -59,7 +59,6 @@ const Display = () => {
 
   const ToProfile = ({ name, email, phone, JobDesc, Uname }: {name: string, email: string, phone: string, JobDesc: string, Uname: string})=>{
     setEmail(email, name, phone, JobDesc, Uname)
-    console.log(email,name, Uname, JobDesc)
     router.push(`user/${Uname}`)
   }
 
