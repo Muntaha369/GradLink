@@ -1,11 +1,10 @@
 "use client";
 
-import React,{useState, useEffect} from 'react';
+import React,{useState} from 'react';
 import { useEmail } from '../store/store';
 import Nav from '../components/Nav';
 import Edit from '../components/Edit';
 
-import { useEdit } from '../store/store';
 
 const MailIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-gray-400">
@@ -58,14 +57,8 @@ const page = () => {
   const { email, name, phone, JobDesc, Uname } = useEmail();
   const [editInfo, setEditInfo] = useState(false)
 
-  const {zustEdit, setEdit} = useEdit() 
 
-  useEffect(() => {
 
-    setEditInfo(zustEdit)
-    console.log("EDIT")
-
-  }, [zustEdit])
   
 
     const user = {
@@ -123,7 +116,7 @@ const page = () => {
                               className='h-6 w-6'
                               src="https://freesvg.org/img/Mini-pencil-icon-white-background.png" alt="Gray-pencil" />
                               <span 
-                              onClick={()=>{setEditInfo(true); setEdit(true)}}
+                              onClick={()=>{setEditInfo(true); }}
                               className='ml-1 hover:text-blue-500 transition-all hover:cursor-pointer'>Edit Info</span>
                             </div>
                         </div>

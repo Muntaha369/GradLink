@@ -1,9 +1,8 @@
 "use client";
 
-import React,{useState, useEffect} from 'react';
-import { useEmail } from '../../store/store';
+import React,{useEffect} from 'react';
+import { useVary } from '../../store/store';
 import Nav from '../../components/Nav';
-import { useEdit } from '../../store/store';
 
 const MailIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-gray-400">
@@ -53,17 +52,44 @@ const InfoItem = ({ icon, text }:any) => (
 
 
 const page = () => {
-  const { email, name, phone, JobDesc, Uname } = useEmail();
-  const [editInfo, setEditInfo] = useState(false)
+  const { email, name, phone, JobDesc, Uname, setEmail } = useVary();
 
-  const {zustEdit, setEdit} = useEdit() 
 
   useEffect(() => {
+    // Get all the values from localStorage
+    const storageEmail = localStorage.getItem('TEMPemail');
+    const storageName = localStorage.getItem('TEMPname');
+    const storagePhone = localStorage.getItem('TEMPphone');
+    const storageJobDesc = localStorage.getItem('TEMPJobDesc');
+    const storageUname = localStorage.getItem('TEMPUname');
 
-    setEditInfo(zustEdit)
-    console.log("EDIT")
+    // Only update the state if localStorage has data
+    if (storageEmail && storageName && storagePhone && storageJobDesc && storageUname) {
+        // Use the existing setEmail function to hydrate the state from localStorage
+        // This should happen only once on initial load.
+        setEmail(storageEmail, storageName, storagePhone, storageJobDesc, storageUname);
+    }
+}, [setEmail]); // This effect should only run once, but include setEmail in the dependency array to be safe
 
-  }, [zustEdit])
+// A separate useEffect to update localStorage whenever the state changes.
+useEffect(() => {
+    // This will run on every state change and ensure localStorage is always in sync.
+    if (email) {
+        localStorage.setItem('TEMPemail', email);
+    }
+    if (name) {
+        localStorage.setItem('TEMPname', name);
+    }
+    if (phone) {
+        localStorage.setItem('TEMPphone', phone);
+    }
+    if (JobDesc) {
+        localStorage.setItem('TEMPJobDesc', JobDesc);
+    }
+    if (Uname) {
+        localStorage.setItem('TEMPUname', Uname);
+    }
+}, [email, name, phone, JobDesc, Uname]);
   
 
     const user = {
@@ -75,6 +101,7 @@ const page = () => {
         about: JobDesc || 'No description available.',
         email: email || 'No email provided',
         phone: phone || 'No phone provided',
+        Uname: Uname || 'some image',
         Linkden: "No account provided"
     };
 
@@ -88,8 +115,11 @@ const page = () => {
                     <img className="h-48 w-full object-cover" src={user.coverPhotoUrl} alt="Cover photo" />
                     <div className="px-6 pt-4 pb-8 relative">
                         <div className="absolute top-0 left-6 -translate-y-1/2">
-                            <img className="h-32 w-32 rounded-full border-4 border-white shadow-lg" 
-                            src={`${Uname}.jpeg`} alt="User avatar" />
+                        { Uname &&(
+                            <img className="h-32 w-32 rounded-full object-cover border-4 border-white shadow-lg" 
+                             src={`${Uname}.jpeg`} 
+                            alt="User avatar" />)
+                        }
                         </div>
                         
                         <div className="flex justify-end items-center -mt-4">
