@@ -30,9 +30,6 @@ const UserSchema = new mongoose.Schema({
   JobDesc:{
     type:String,
     require:true
-  },
-  admin:{
-    type:Boolean
   }
 });
 
