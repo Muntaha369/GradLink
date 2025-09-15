@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import ConnectDB from "../../db/db";
 import User from "../../model/model";
+import Admin from "../../model/model"
 
 export async function POST(req) {
   try {
@@ -11,6 +12,13 @@ export async function POST(req) {
     const {email, pass} = body;
 
     const findUser = await User.findOne({email, pass})
+    const findAdmin = await Admin.findOne({email,pass})
+
+    if(findAdmin){
+      return NextResponse.json({
+        name:findAdmin.name
+      })
+    }
 
     if(!findUser){
       return NextResponse.json({
