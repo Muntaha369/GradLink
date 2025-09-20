@@ -17,3 +17,8 @@ export const useVary = create((set) => ({
   Uname:"",
   setEmail: (email, name, phone, JobDesc, Uname) => set(() => ({ email, name, phone, JobDesc, Uname })),
 }))
+
+export const useRole = create((set)=>({
+  role:"",
+  setRole:(role)=> set(()=>({role:role}))
+}))

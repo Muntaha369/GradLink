@@ -2,7 +2,8 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useEmail } from '../store/store';
-import {useRouter} from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useRole } from '../store/store';
 
 const SearchIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-gray-400">
@@ -32,8 +33,10 @@ export default function App() {
     
     const router = useRouter()
 
+    const{ role }=useRole()
     const {email, name, phone, JobDesc, Uname, setEmail}=useEmail()
     const [oneChar, setOneChar] = useState(email.charAt(0).toUpperCase() || "!")
+    const [userRole, setUserRole] = useState<string | null>('')
 
     
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -47,6 +50,15 @@ export default function App() {
     }
     
     useEffect(()=>{
+
+        const storageRole = localStorage.getItem('role')
+        if(!storageRole){
+        localStorage.setItem('role',`${role}`)
+        }
+
+        setUserRole(storageRole)
+
+
         const storageEmail = localStorage.getItem('email') ;
         const storageName = localStorage.getItem('name') ;
         const storagePhone = localStorage.getItem('phone') ;
@@ -128,9 +140,15 @@ export default function App() {
                                     <div 
                                     onMouseLeave={()=>setIsProfileMenuOpen(false)}
                                     className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5">
+                                        {userRole==="alumni" && (
                                         <p 
                                         onClick={()=>router.push('/profile')}
-                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</p>
+                                        className="block px-4 hover:cursor-pointer py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</p>)}
+                                        {userRole==="admin" &&(
+                                        <p 
+                                        onClick={()=>router.push('/profile')}
+                                        className="block px-4 py-2 text-sm
+                                         text-gray-700 hover:cursor-pointer hover:bg-gray-100">Add User</p>)}
                                         <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                                         <p 
                                         onClick={ClearStore}

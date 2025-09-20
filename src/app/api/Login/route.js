@@ -31,7 +31,8 @@ export async function POST(req) {
       name: findUser.name,
       phone: findUser.phone,
       JobDesc:findUser.JobDesc,
-      Uname:findUser.Uname
+      Uname:findUser.Uname,
+      msg:"alumni"
     }, { status: 200 });
 
   } catch (error) {

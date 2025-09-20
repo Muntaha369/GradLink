@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { ClipboardCheck } from 'lucide-react';
 import { useEmail } from '../store/store'
+import { useRole } from '../store/store'
 import { useRouter } from 'next/navigation';
 import axios from 'axios'
 
@@ -10,6 +11,7 @@ import axios from 'axios'
 export default function GradlinkLogin() {
   const router = useRouter()
   const { setEmail } = useEmail()
+  const { setRole } = useRole()
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -40,6 +42,7 @@ export default function GradlinkLogin() {
           })
           console.log("Login Successful!",res.data.name )
           setEmail(formData.email, res.data.name, res.data.phone, res.data.JobDesc, res.data.Uname)
+          setRole(res.data.msg)
         } catch (error) {
           console.error("Login error side", error)
         }
