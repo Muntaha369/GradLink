@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import ConnectDB from "../../db/db";
 import User from "../../model/model";
-import Admin from "../../model/model"
+import Admin from "../../model/adminModel"
 
 export async function POST(req) {
   try {
@@ -16,7 +16,8 @@ export async function POST(req) {
 
     if(findAdmin){
       return NextResponse.json({
-        name:findAdmin.name
+        name:findAdmin,
+        msg:"admin"
       })
     }
 

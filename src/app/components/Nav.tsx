@@ -40,6 +40,11 @@ export default function App() {
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     
     const profileMenuRef = useRef<HTMLDivElement>(null);
+
+    const ClearStore = ()=>{
+        localStorage.clear()
+        router.push('/login')
+    }
     
     useEffect(()=>{
         const storageEmail = localStorage.getItem('email') ;
@@ -127,7 +132,9 @@ export default function App() {
                                         onClick={()=>router.push('/profile')}
                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</p>
                                         <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-                                        <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
+                                        <p 
+                                        onClick={ClearStore}
+                                        className="block hover:cursor-pointer px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</p>
                                     </div>
                                 )}
                             </div>

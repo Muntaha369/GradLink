@@ -57,8 +57,7 @@ const page = () => {
   const { email, name, phone, JobDesc, Uname } = useEmail();
   const [editInfo, setEditInfo] = useState(false)
 
-
-
+  console.log(email, name, phone, JobDesc, Uname)
   
 
     const user = {

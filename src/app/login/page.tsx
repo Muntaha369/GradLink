@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ClipboardCheck } from 'lucide-react';
 import { useEmail } from '../store/store'
 import { useRouter } from 'next/navigation';
+import axios from 'axios'
 
 
 export default function GradlinkLogin() {
@@ -23,7 +24,7 @@ export default function GradlinkLogin() {
     }));
   };
 
-  const handleSubmit = (e:any) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
     
     if (formData.email && formData.password) {
@@ -31,25 +32,17 @@ export default function GradlinkLogin() {
       console.log('Email:', formData.email);
       console.log('Password:', formData.password);
       console.log('Remember me:', formData.rememberMe);
-      
-      // Here you would add your API call
-      
-      fetch('http://localhost:3000/api/Login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: formData.email,
-          pass: formData.password
-        })
-      }).then(response => response.json())
-        .then(data => {
-          console.log('Login successful!', data.Uname)
-
-          setEmail(formData.email, data.name, data.phone, data.JobDesc, data.Uname)
-
-        })
-        .catch(error => console.error('Login failed!', error));
-
+        
+        try {
+          const res = await axios.post('http://localhost:3000/api/Login',{
+            email: formData.email,
+            pass: formData.password
+          })
+          console.log("Login Successful!",res.data.name )
+          setEmail(formData.email, res.data.name, res.data.phone, res.data.JobDesc, res.data.Uname)
+        } catch (error) {
+          console.error("Login error side", error)
+        }
         router.push('/')
 
     } else {
