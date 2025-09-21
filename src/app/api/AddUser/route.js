@@ -32,7 +32,7 @@ export async function POST(req) {
 
     
     const filename = `${Date.now()}-${Uname}`; 
-    const filePath = path.join(process.cwd(), 'public', filename+".png");
+    const filePath = path.join(process.cwd(), 'public', filename+".jpeg");
     await writeFile(filePath, buffer);
 
     const newUser = await User.create({
@@ -41,7 +41,7 @@ export async function POST(req) {
       pass,
       phone,
       GY,
-      Uname,
+      Uname:filename,
       JobDesc
     })
 
