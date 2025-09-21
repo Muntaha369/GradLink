@@ -1,15 +1,16 @@
 'use client'
 
 import React, { useState, ChangeEvent, FormEvent } from 'react';
+import axios from 'axios';
 
 // Define an interface for the form data's shape for type safety
 interface FormDataState {
   name: string;
-  uname: string;
+  Uname: string;
   email: string;
   pass: string;
   phone: string;
-  gy: string;
+  GY: string;
   jobdesc: string;
 }
 
@@ -37,11 +38,11 @@ const placeholderSVG = (
 const AddUserForm: React.FC = () => {
   const initialFormData: FormDataState = {
     name: '',
-    uname: '',
+    Uname: '',
     email: '',
     pass: '',
     phone: '',
-    gy: '',
+    GY: '',
     jobdesc: '',
   };
 
@@ -65,7 +66,7 @@ const AddUserForm: React.FC = () => {
   };
 
   // Handler for the image file input, with typed event
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange =  (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]; // Use optional chaining for safety
     if (file) {
       setImageFile(file);
@@ -80,34 +81,46 @@ const AddUserForm: React.FC = () => {
   };
 
   // Handler for form submission, with typed event
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    // Create a FormData object to send to an API
-    const submissionData = new FormData();
-    // Loop over formData keys in a type-safe way
-    Object.keys(formData).forEach(key => {
-        submissionData.append(key, formData[key as keyof FormDataState]);
-    });
 
+     
+
+    const data = new FormData();
+    data.append('name', formData.name);
+    data.append('email', formData.email);
+    data.append('pass', formData.pass);
+    data.append('phone', formData.phone);
+    data.append('GY', formData.GY);
+    data.append('Uname', formData.Uname);
+    data.append('JobDesc', formData.jobdesc);
     if (imageFile) {
-      submissionData.append('profileImage', imageFile);
-    }
-    
-    // For demo purposes, we'll just log the data.
-    console.log('Form Submitted!');
-    for (let [key, value] of submissionData.entries()) {
-        console.log(`${key}:`, value);
+      data.append('file', imageFile);
     }
 
-    // Show success message and reset the form
-    setIsSuccess(true);
+    if(!imageFile){
+      return alert("plzz add image")
+    }
+
+     try {
+      const response = await axios.post('http://localhost:3000/api/AddUser', data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });;
+
+      setIsSuccess(true);
     setTimeout(() => {
       setFormData(initialFormData);
       setImageFile(null);
       setImagePreview(null);
       setIsSuccess(false);
     }, 3000); // Reset after 3 seconds
+
+    } catch (error) {
+      console.error('❌ Error adding product:', error);
+    }
+    
+    
+    
   };
 
   return (
@@ -149,7 +162,7 @@ const AddUserForm: React.FC = () => {
             </div>
             <div>
               <label htmlFor="uname" className="text-sm font-medium text-gray-700">Username</label>
-              <input id="uname" name="uname" type="text" value={formData.uname} onChange={handleChange} required className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm" placeholder="johndoe88" />
+              <input id="uname" name="Uname" type="text" value={formData.Uname} onChange={handleChange} required className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm" placeholder="johndoe88" />
             </div>
             <div>
               <label htmlFor="email" className="text-sm font-medium text-gray-700">Email Address</label>
@@ -165,7 +178,7 @@ const AddUserForm: React.FC = () => {
             </div>
             <div>
               <label htmlFor="gy" className="text-sm font-medium text-gray-700">Graduation Year</label>
-              <input id="gy" name="gy" type="number" value={formData.gy} onChange={handleChange} required className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm" placeholder="2025" min="1950" max="2050" />
+              <input id="gy" name="GY" type="number" value={formData.GY} onChange={handleChange} required className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm" placeholder="2025" min="1950" max="2050" />
             </div>
           </div>
           
